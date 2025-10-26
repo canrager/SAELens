@@ -66,7 +66,9 @@ def test_TemporalSAE_decode():
 
     batch_size = 4
     seq_len = 16
-    novel_codes = torch.randn(batch_size, seq_len, cfg.d_sae, dtype=DTYPE_MAP[sae.cfg.dtype]).relu()
+    novel_codes = torch.randn(
+        batch_size, seq_len, cfg.d_sae, dtype=DTYPE_MAP[sae.cfg.dtype]
+    ).relu()
 
     reconstruction = sae.decode(novel_codes)
 
@@ -231,11 +233,11 @@ def test_TemporalSAE_matches_original_implementation():
 
     # Compare outputs
     # Check reconstruction
-    assert torch.allclose(
-        x_recons_lens, x_recons_orig, rtol=1e-5, atol=1e-6
-    ), f"Reconstructions differ: max diff = {(x_recons_lens - x_recons_orig).abs().max()}"
+    assert torch.allclose(x_recons_lens, x_recons_orig, rtol=1e-5, atol=1e-6), (
+        f"Reconstructions differ: max diff = {(x_recons_lens - x_recons_orig).abs().max()}"
+    )
 
     # Check novel codes
-    assert torch.allclose(
-        z_novel_lens, z_novel_orig, rtol=1e-5, atol=1e-6
-    ), f"Novel codes differ: max diff = {(z_novel_lens - z_novel_orig).abs().max()}"
+    assert torch.allclose(z_novel_lens, z_novel_orig, rtol=1e-5, atol=1e-6), (
+        f"Novel codes differ: max diff = {(z_novel_lens - z_novel_orig).abs().max()}"
+    )

@@ -1,6 +1,6 @@
 temporal-sae-gemma-2-2b:
   conversion_func: temporal
-  model: google/gemma-2-2b
+  model: gemma-2-2b
   repo_id: canrager/temporalSAEs
   config_overrides:
     model_name: gemma-2-2b

@@ -16,8 +16,9 @@ def test_TemporalSAE_initialization():
     assert sae.W_dec.shape == (cfg.d_sae, cfg.d_in)
     assert sae.b_dec.shape == (cfg.d_in,)
 
-    assert isinstance(sae.W_enc, torch.nn.Parameter)
-    assert sae.W_enc.shape == (cfg.d_in, cfg.d_sae)
+    if not sae.cfg.tied_weights:
+        assert isinstance(sae.W_enc, torch.nn.Parameter)
+        assert sae.W_enc.shape == (cfg.d_in, cfg.d_sae)
 
     assert len(sae.attn_layers) == cfg.n_attn_layers
     for attn_layer in sae.attn_layers:
@@ -65,7 +66,7 @@ def test_TemporalSAE_decode():
 
     batch_size = 4
     seq_len = 16
-    novel_codes = torch.randn(batch_size, seq_len, cfg.d_sae).relu()
+    novel_codes = torch.randn(batch_size, seq_len, cfg.d_sae, dtype=DTYPE_MAP[sae.cfg.dtype]).relu()
 
     reconstruction = sae.decode(novel_codes)
 

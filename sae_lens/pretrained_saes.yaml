@@ -11,6 +11,7 @@ temporal-sae-gemma-2-2b:
     l0: 192
     norm_scaling_factor: 0.00666666667
     path: gemma-2-2B/layer_12/temporal
+    neuronpedia: gemma-2-2b/12-temporal-res
 temporal-sae-llama-3.1-8b:
   conversion_func: temporal
   model: meta-llama/Llama-3.1-8B
@@ -23,10 +24,12 @@ temporal-sae-llama-3.1-8b:
     l0: 256
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_16/temporal
+    neuronpedia: llama3.1-8b/16-temporal-res
   - id: blocks.26.hook_resid_post
     l0: 256
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_26/temporal
+    neuronpedia: llama3.1-8b/26-temporal-res
 deepseek-r1-distill-llama-8b-qresearch:
   conversion_func: deepseek_r1
   model: deepseek-ai/DeepSeek-R1-Distill-Llama-8B

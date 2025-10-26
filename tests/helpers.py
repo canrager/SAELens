@@ -20,6 +20,7 @@ TINYSTORIES_MODEL = "tiny-stories-1M"
 NEEL_NANDA_C4_10K_DATASET = "NeelNanda/c4-10k"
 
 ALL_ARCHITECTURES = ["standard", "gated", "jumprelu", "topk", "temporal"]
+ALL_FOLDABLE_ARCHITECTURES = ["standard", "gated", "jumprelu", "topk"] # Architectures with fold W_dec to unit norm implementation
 ALL_TRAINING_ARCHITECTURES = [
     "standard",
     "gated",

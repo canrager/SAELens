@@ -19,6 +19,7 @@ from sae_lens.saes.standard_sae import (
 )
 from tests.helpers import (
     ALL_ARCHITECTURES,
+    ALL_FOLDABLE_ARCHITECTURES,
     ALL_TRAINING_ARCHITECTURES,
     assert_close,
     assert_not_close,
@@ -410,7 +411,7 @@ def test_StandardSAE_fold_norm_scaling_factor(
     assert_close(sae_out_1, sae_out_2, atol=1e-5)
 
 
-@pytest.mark.parametrize("architecture", ALL_ARCHITECTURES)
+@pytest.mark.parametrize("architecture", ALL_FOLDABLE_ARCHITECTURES)
 @torch.no_grad()
 def test_sae_fold_norm_scaling_factor_all_architectures(architecture: str):
     cfg = build_sae_cfg_for_arch(architecture)

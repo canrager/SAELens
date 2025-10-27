@@ -233,11 +233,11 @@ def test_TemporalSAE_matches_original_implementation():
 
     # Compare outputs
     # Check reconstruction
-    assert torch.allclose(x_recons_lens, x_recons_orig, rtol=1e-5, atol=1e-6), (
-        f"Reconstructions differ: max diff = {(x_recons_lens - x_recons_orig).abs().max()}"
-    )
+    assert torch.allclose(
+        x_recons_lens, x_recons_orig, rtol=1e-5, atol=1e-6
+    ), f"Reconstructions differ: max diff = {(x_recons_lens - x_recons_orig).abs().max()}"
 
     # Check novel codes
-    assert torch.allclose(z_novel_lens, z_novel_orig, rtol=1e-5, atol=1e-6), (
-        f"Novel codes differ: max diff = {(z_novel_lens - z_novel_orig).abs().max()}"
-    )
+    assert torch.allclose(
+        z_novel_lens, z_novel_orig, rtol=1e-5, atol=1e-6
+    ), f"Novel codes differ: max diff = {(z_novel_lens - z_novel_orig).abs().max()}"

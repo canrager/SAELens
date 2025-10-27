@@ -134,6 +134,7 @@ class TemporalSAEConfig(SAEConfig):
         sae_diff_type: Type of SAE for novel codes ('relu' or 'topk')
         kval_topk: K value for top-k sparsity (if sae_diff_type='topk')
         tied_weights: Whether to tie encoder and decoder weights
+        activation_normalization_factor: Scalar factor for rescaling activations (used with normalize_activations='constant_scalar_rescale')
     """
 
     n_heads: int = 8
@@ -142,6 +143,20 @@ class TemporalSAEConfig(SAEConfig):
     sae_diff_type: Literal["relu", "topk"] = "topk"
     kval_topk: int | None = None
     tied_weights: bool = True
+    activation_normalization_factor: float = 1.0
+
+    def __post_init__(self):
+        # Call parent's __post_init__ first, but allow constant_scalar_rescale
+        if self.normalize_activations not in [
+            "none",
+            "expected_average_only_in",
+            "constant_norm_rescale",
+            "constant_scalar_rescale",  # Temporal SAEs support this
+            "layer_norm",
+        ]:
+            raise ValueError(
+                f"normalize_activations must be none, expected_average_only_in, layer_norm, constant_norm_rescale, or constant_scalar_rescale. Got {self.normalize_activations}"
+            )
 
     @override
     @classmethod
@@ -189,6 +204,27 @@ class TemporalSAE(SAE[TemporalSAEConfig]):
 
         self.eps = 1e-6
         self.lam = 1 / (4 * self.cfg.d_in)
+
+    @override
+    def _setup_activation_normalization(self):
+        """Set up activation normalization functions for TemporalSAE.
+
+        Overrides the base implementation to handle constant_scalar_rescale
+        using the temporal-specific activation_normalization_factor.
+        """
+        if self.cfg.normalize_activations == "constant_scalar_rescale":
+            # Handle constant scalar rescaling for temporal SAEs
+            def run_time_activation_norm_fn_in(x: torch.Tensor) -> torch.Tensor:
+                return x * self.cfg.activation_normalization_factor
+
+            def run_time_activation_norm_fn_out(x: torch.Tensor) -> torch.Tensor:
+                return x / self.cfg.activation_normalization_factor
+
+            self.run_time_activation_norm_fn_in = run_time_activation_norm_fn_in
+            self.run_time_activation_norm_fn_out = run_time_activation_norm_fn_out
+        else:
+            # Delegate to parent for all other normalization types
+            super()._setup_activation_normalization()
 
     @override
     def initialize_weights(self) -> None:
@@ -327,3 +363,10 @@ class TemporalSAE(SAE[TemporalSAEConfig]):
     @override
     def fold_W_dec_norm(self) -> None:
         raise NotImplementedError("Folding W_dec_norm is not supported for TemporalSAE")
+
+    @override
+    @torch.no_grad()
+    def fold_activation_norm_scaling_factor(self, scaling_factor: float) -> None:
+        raise NotImplementedError(
+            "Folding activation norm scaling factor is not supported for TemporalSAE"
+        )

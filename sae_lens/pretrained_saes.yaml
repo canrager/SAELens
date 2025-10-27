@@ -20,12 +20,12 @@ temporal-sae-llama-3.1-8b:
     model_name: meta-llama/Llama-3.1-8B
     dataset_path: monology/pile-uncopyrighted
   saes:
-  - id: blocks.16.hook_resid_post
+  - id: blocks.15.hook_resid_post
     l0: 256
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_16/temporal
     neuronpedia: llama3.1-8b/16-temporal-res
-  - id: blocks.26.hook_resid_post
+  - id: blocks.25.hook_resid_post
     l0: 256
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_26/temporal

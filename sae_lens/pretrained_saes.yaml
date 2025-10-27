@@ -25,7 +25,7 @@ temporal-sae-llama-3.1-8b:
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_16/temporal
     neuronpedia: llama3.1-8b/15-temporal-res
-  - id: blocks.25.hook_resid_post
+  - id: blocks.26.hook_resid_post
     l0: 256
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_26/temporal

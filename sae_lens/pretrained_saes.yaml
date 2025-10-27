@@ -23,13 +23,13 @@ temporal-sae-llama-3.1-8b:
   - id: blocks.15.hook_resid_post
     l0: 256
     norm_scaling_factor: 0.029
-    path: llama-3.1-8B/layer_16/temporal
+    path: llama-3.1-8B/layer_15/temporal
     neuronpedia: llama3.1-8b/15-temporal-res
   - id: blocks.26.hook_resid_post
     l0: 256
     norm_scaling_factor: 0.029
     path: llama-3.1-8B/layer_26/temporal
-    neuronpedia: llama3.1-8b/25-temporal-res
+    neuronpedia: llama3.1-8b/26-temporal-res
 deepseek-r1-distill-llama-8b-qresearch:
   conversion_func: deepseek_r1
   model: deepseek-ai/DeepSeek-R1-Distill-Llama-8B
